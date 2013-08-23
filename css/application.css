@@ -6,8 +6,8 @@
 	display: inline-block;
 	border: 1px solid gray;
 	border-radius: 5px;
-	width: 200px;
-
+	width: 254px;
+	display:none;
 }
 
 .hint.search {
@@ -61,4 +61,24 @@
 	border-style: solid;
 	border-width: 10px 12px 10px 0;
 	border-color: transparent rgb(247, 124, 94) transparent transparent;
+}
+
+
+.search input[type="text"] {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	font-size: 21px;
+}
+
+.user_holder {
+	margin-bottom:0px;
+}
+
+.user_holder input[type="text"] {
+	width: 245px;
+}
+
+.user_holder .add-on {
+	height: 22px;
+	padding-top: 8px;
 }

@@ -74,24 +74,14 @@ if($user_name) {
         <div class="span3">
           <div class="hint search">
             <h5>
-              Ve los resultados!
+              Evalúa a tus profesores! 
               <br>
-              Busca por profesor o curso
+              En todos los ramos que haz tomado
             </h5>
           </div>
 
-          <div class="hint answer">
-            <h5>
-              Evalúa a tus profesores! 
-              <br>
-              desde el 2007 en adelante 
-            </h5>
-          </div>
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
-              <li class="nav-header">Ver Resultados</li>
-              <li><a href="#">Buscar por Profesor</a></li>
-              <li><a href="#">Buscar por Curso o Sigla</a></li>
               <li class="nav-header">Evaluar Profesores</li>
               <li><a href="#">1er Sem 2013</a></li>
               <li><a href="#">2do Sem 2013</a></li>
@@ -109,7 +99,9 @@ if($user_name) {
           </div><!--/.well -->
         </div><!--/span-->
         <div class="span9">
-        
+          <form class="search">
+            <input type="text" class="span12 input-medium search-query h3"  placeholder="busca por profesor, curso o sigla...">
+          </form>
         </div><!--/span-->
       </div><!--/row-->
 

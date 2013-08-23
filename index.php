@@ -10,6 +10,7 @@
 
     <!-- Le styles -->
     <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/application.css" rel="stylesheet">
     <style type="text/css">
       html, body {
         margin-top:80px;
@@ -85,8 +86,10 @@
       <form class="form-signin" action="validation.php" mehod="post">
         <h2 class="form-signin-heading">Iniciar Sesión</h2>
         <div class="error-login" style=" margin: 13px 0px; color:red; display:none">Error al iniciar sesión. Por favor verifica tu usuario y clave</div>
-        <input type="text" class="input-block-level" name='user' placeholder="usuario uc" style="width:246px">
-        <h5 style="position: relative; top: -8px; display: inline-block;"> @uc.cl </h5> 
+        <div class="input-append user_holder">
+          <input class="input-block-level" name="user" placeholder="usuario uc"  type="text">
+          <span class="add-on">@uc.cl</span>
+        </div>
         <input type="password" class="input-block-level" name='password' placeholder="clave uc">
         <button class="btn btn-large btn-primary" type="submit">Sign in</button>
         <div class="loading-signin" style="display:inline-block; margin-left:10px; display:none;">
