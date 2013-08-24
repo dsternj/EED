@@ -1,7 +1,5 @@
-<? include_once 'backend/panel.php' ;
-include_once('read_cookie.php') ;
-if($user_name) { 
-?>
+<? include_once 'backend/panel.php' ?>
+
 
 <!DOCTYPE html>
 <html>
@@ -56,11 +54,11 @@ if($user_name) {
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle hidden-phone" data-toggle="dropdown">
-                        <? echo $user_name ?>@uc.cl
+                        Your account
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="logout.php">Cerrar Sesión</a></li>
+                        <li><a href="#">Cerrar Sesión</a></li>
                     </ul>
                 </li>
             </ul>            
@@ -107,6 +105,15 @@ if($user_name) {
     <!-- main container -->
     <div class="content">
 
+        <!-- settings changer -->
+        <div class="skins-nav">
+            <a href="#" class="skin first_nav selected">
+                <span class="icon"></span><span class="text">Default skin</span>
+            </a>
+            <a href="#" class="skin second_nav" data-file="css/skins/dark.css">
+                <span class="icon"></span><span class="text">Dark skin</span>
+            </a>
+        </div>
 
         <div class="container-fluid">
 
@@ -151,30 +158,15 @@ if($user_name) {
                 <!-- statistics chart built with jQuery Flot -->
                 <div class="row-fluid chart">
                     <h4>
-                        <div class='span12'>Cursos Dicatos en la UC</div>
-
-                    </h4>
-                    <div class="span2 h6">
-                        <div id="statsChart-checkbox" class="faculty_classes_checkbox">
-                            <input type="text" class="search faculty_classes span12" placeholder="facultad...">
-                            <div class="faculty_list">
-                                    <input type="checkbox"  name="total" checked  id="total">
-                                    <label for="total">total</label> 
-                                <?
-                                    foreach ($class_count as $faculty => $data) { 
-                                        $faculty_name = str_replace($search, $replace, $faculty);
-                                ?>
-                                        <input type="checkbox"  name="<? echo $faculty_name ?>"  id="<? echo $faculty_name ?>">
-                                        <label for="<? echo $faculty_name ?>"><? echo $faculty ?></label>                                
-                                <?
-                                    }
-                                ?>
-                            </div>
+                        Statistics
+                         <div class="btn-group pull-right">
+                            <button class="glow left">DAY</button>
+                            <button class="glow middle active">MONTH</button>
+                            <button class="glow right">YEAR</button>
                         </div>
-                    </div>
-                    <div class="span9">
+                    </h4>
+                    <div class="span12">
                         <div id="statsChart"></div>
-                        <div id="statsChartLegend" class="span12"></div>
                     </div>
                 </div>
                 <!-- end statistics chart -->
@@ -401,14 +393,12 @@ if($user_name) {
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery-ui-1.10.2.custom.min.js"></script>
-    <script src="js/jquery.slimscroll.min.js"></script>
     <!-- knob -->
     <script src="js/jquery.knob.js"></script>
     <!-- flot charts -->
     <script src="js/jquery.flot.js"></script>
     <script src="js/jquery.flot.stack.js"></script>
     <script src="js/jquery.flot.resize.js"></script>
-    <script src="js/jquery.flot.time.js"></script>
     <script src="js/theme.js"></script>
 
     <script type="text/javascript">
@@ -438,31 +428,75 @@ if($user_name) {
                 values: [ 40, 170 ],
             });
 
-
-
-
+            
 
             // jQuery Flot Chart
-           
-            //Classes chart
-            $('#statsChart-checkbox').find("input").click(plotClasses);
-            plotClasses();
-            facultyScroll();
-            searchFacultyClasses();
+            <?
+                while($row = mysql_fetch_array( $classes )) {
+                    $count = $row['count'];
+                    $year = $row['year'];
+                    $semester = $row['semester'];
+                    $series_class[]='['.$row['year'].'-'.$row['semester'].','.$row['count'].']'
+                }
+            ?>
+            var visits = [<? implode (',', $series_class) ?>] ;
+            var visitors = [[1, 25], [2, 50], [3, 23], [4, 48],[5, 38],[6, 40],[7, 47],[8, 55],[9, 43],[10,50],[11,47],[12, 39]];
+
+            var plot = $.plot($("#statsChart"),
+                [ { data: visits, label: "Signups"},
+                 { data: visitors, label: "Visits" }], {
+                    series: {
+                        lines: { show: true,
+                                lineWidth: 1,
+                                fill: true, 
+                                fillColor: { colors: [ { opacity: 0.1 }, { opacity: 0.13 } ] }
+                             },
+                        points: { show: true, 
+                                 lineWidth: 2,
+                                 radius: 3
+                             },
+                        shadowSize: 0,
+                        stack: true
+                    },
+                    grid: { hoverable: true, 
+                           clickable: true, 
+                           tickColor: "#f9f9f9",
+                           borderWidth: 0
+                        },
+                    legend: {
+                            // show: false
+                            labelBoxBorderColor: "#fff"
+                        },  
+                    colors: ["#a7b5c5", "#30a0eb"],
+                    xaxis: {
+                        ticks: [[1, "JAN"], [2, "FEB"], [3, "MAR"], [4,"APR"], [5,"MAY"], [6,"JUN"], 
+                               [7,"JUL"], [8,"AUG"], [9,"SEP"], [10,"OCT"], [11,"NOV"], [12,"DEC"]],
+                        font: {
+                            size: 12,
+                            family: "Open Sans, Arial",
+                            variant: "small-caps",
+                            color: "#697695"
+                        }
+                    },
+                    yaxis: {
+                        ticks:3, 
+                        tickDecimals: 0,
+                        font: {size:12, color: "#9da3a9"}
+                    }
+                 });
 
             function showTooltip(x, y, contents) {
                 $('<div id="tooltip">' + contents + '</div>').css( {
                     position: 'absolute',
                     display: 'none',
+                    top: y - 30,
+                    left: x - 50,
                     color: "#fff",
                     padding: '2px 5px',
                     'border-radius': '6px',
                     'background-color': '#000',
-                    opacity: 0.65
-                }).appendTo("body").fadeIn(200).css({
-                    top: y - $('#tooltip').height()-10,
-                    left: x - $('#tooltip').width()/2
-                });
+                    opacity: 0.80
+                }).appendTo("body").fadeIn(200);
             }
 
             var previousPoint = null;
@@ -475,16 +509,10 @@ if($user_name) {
                         var x = item.datapoint[0].toFixed(0),
                             y = item.datapoint[1].toFixed(0);
 
-                        d = item.datapoint[0];
-                        date = new Date(d);
-                        year = 1900+parseInt(date.getYear())
-                        if(parseInt(date.getMonth()+1)==7)
-                            $semester = '2do';
-                        else
-                            $semester = '1er';
+                        var month = item.series.xaxis.ticks[item.dataIndex].label;
 
                         showTooltip(item.pageX, item.pageY,
-                                    item.series.label + "<br> "  +$semester+ " semestre " + year +" <br> Cursos: " + y);
+                                    item.series.label + " of " + month + ": " + y);
                     }
                 }
                 else {
@@ -493,137 +521,6 @@ if($user_name) {
                 }
             });
         });
-
-        function classesData() {
-            var datasets = {
-                "total": {
-                    label: "Total",
-                    data: [<? echo implode (',', $series_class) ?>],
-                    color: '#32a0ee'
-                }, 
-            <?
-                foreach ($class_count as $faculty => $data) {
-                    $n=1;
-                    foreach ($data as $tick => $count) {
-                        $series_faculty[$faculty][]='['.$tick.' ,'.$count.']';
-                        $n++;
-                    }
-            ?>
-
-                "<? echo str_replace($search, $replace, $faculty); ?>": {
-                    label: "<? echo $faculty; ?>",
-                    data: [<? echo implode (',' , $series_faculty[$faculty]); ?>] 
-                }, 
-            <?
-                }
-            ?>
-            }
-
-            // hard-code color indices to prevent them from shifting as
-            // countries are turned on/off
-
-            var i = 1;
-
-            $.each(datasets, function(key, val) {
-                val.color = i;
-                ++i;
-            });
-
-            return datasets;
-        };
-
-        function plotClasses() {
-            var data =[];
-            datasets = classesData();
-            if($('#statsChart-checkbox').find("input:checked").length > 0){
-                $('#statsChart-checkbox').find("input:checked").each(function () {
-                    var key = $(this).attr("name");
-                    if (key && datasets[key]) {
-                        data.push(datasets[key]);
-                    }
-
-                });
-
-                var plot = $.plot($("#statsChart"),data, {
-                        series: {
-                            lines: { show: true,
-                                    lineWidth: 1,
-                                    fill: true, 
-                                    fillColor: { colors: [ { opacity: 0.1 }, { opacity: 0.13 } ] }
-                                 },
-                            points: { show: true, 
-                                     lineWidth: 2,
-                                     radius: 3
-                                 },
-                            shadowSize: 0,
-                        },
-                        grid: { hoverable: true, 
-                               clickable: true, 
-                               tickColor: "#f9f9f9",
-                               borderWidth: 0
-                            },
-                        legend: {
-                                // show: false
-                                labelBoxBorderColor: "#fff",
-                                container: $('#statsChartLegend'),
-                                noColumns: 3,
-                                sorted: 'reverse'
-                            },  
-                        colors: ["#a7b5c5", "#30a0eb"],
-                        xaxis: {
-                            mode: "time",
-                            minTickSize: [0.5, "year"],
-                            font: {
-                                size: 10,
-                                family: "Open Sans, Arial",
-                                variant: "small-caps",
-                                color: "#697695"
-                            }
-                        },
-                        yaxis: {
-                            ticks:10, 
-                            tickDecimals: 0,
-                            font: {size:12, color: "#9da3a9"}
-                        }
-                    });
-                }
-            }
-
-            function facultyScroll() {
-
-                $('.faculty_list').slimScroll({
-                    height: '200px',
-                    size: '5px',
-                    position: 'right',
-                    alwaysVisible: false,
-                    railVisible: false,
-                    railOpacity: 0.3,
-                    wheelStep: 10,
-                    allowPageScroll: false,
-                    disableFadeOut: false
-
-                });
-            }
-
-            function searchFacultyClasses() {
-                $('.search.faculty_classes').keyup(function(){
-                    q = $(this).val().toLowerCase();
-                    $('.faculty_classes_checkbox').find('label').each(function(){
-                        val=$(this).text().toLowerCase()
-                        if(val.search(q)!=-1){
-                            $(this).show();
-                        }
-                        else {
-                            $(this).hide();
-                        }
-                    })
-                })
-            }
     </script>
 </body>
 </html>
-<? } 
-else {
-header( 'Location: index.php' ) ;
-}
-?>

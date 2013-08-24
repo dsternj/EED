@@ -9,7 +9,7 @@
     }
 
     // add our login values
-    $postFields['periodo'] = '2013-21';
+    $postFields['periodo'] = $_GET['year'].'-'.$_GET['semester'];
 
     $post = '';
 
@@ -54,7 +54,10 @@ $(window).load(function(){
        data: {c:c},
        url: "http://localhost/saveClasses.php",
        success: function(data){
-         console.log(data)
+         console.log(data);
+         <? if($_GET['year']>1992) {  $newyear = $_GET['year']-1?>
+         window.location = "http://localhost/getClasses.php?<? echo 'year='.$newyear.'&semester='.$_GET['semester'] ?>"
+         <? } ?>
        },
     });
 
