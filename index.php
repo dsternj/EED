@@ -1,3 +1,7 @@
+<? 
+include_once('read_cookie.php') ;
+if(!$user_name) { 
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -120,3 +124,8 @@
 
   </body>
 </html>
+<? } 
+else {
+header( 'Location: panel.php' ) ;
+}
+?>

@@ -438,61 +438,21 @@ if($user_name) {
                 values: [ 40, 170 ],
             });
 
-
-
-
-
             // jQuery Flot Chart
            
             //Classes chart
-            $('#statsChart-checkbox').find("input").click(plotClasses);
-            plotClasses();
+            classGraphHolder = $('#statsChart');
+            classCheckboxHolder = $('#statsChart-checkbox');
+            classDataset = classesData();
+            classLegendHolder = $('#statsChartLegend');
+            classTooltipString = 'Cursos';
+            plotClasses(classGraphHolder, classCheckboxHolder, classDataset, classLegendHolder, classTooltipString );
             facultyScroll();
             searchFacultyClasses();
 
-            function showTooltip(x, y, contents) {
-                $('<div id="tooltip">' + contents + '</div>').css( {
-                    position: 'absolute',
-                    display: 'none',
-                    color: "#fff",
-                    padding: '2px 5px',
-                    'border-radius': '6px',
-                    'background-color': '#000',
-                    opacity: 0.65
-                }).appendTo("body").fadeIn(200).css({
-                    top: y - $('#tooltip').height()-10,
-                    left: x - $('#tooltip').width()/2
-                });
-            }
-
-            var previousPoint = null;
-            $("#statsChart").bind("plothover", function (event, pos, item) {
-                if (item) {
-                    if (previousPoint != item.dataIndex) {
-                        previousPoint = item.dataIndex;
-
-                        $("#tooltip").remove();
-                        var x = item.datapoint[0].toFixed(0),
-                            y = item.datapoint[1].toFixed(0);
-
-                        d = item.datapoint[0];
-                        date = new Date(d);
-                        year = 1900+parseInt(date.getYear())
-                        if(parseInt(date.getMonth()+1)==7)
-                            $semester = '2do';
-                        else
-                            $semester = '1er';
-
-                        showTooltip(item.pageX, item.pageY,
-                                    item.series.label + "<br> "  +$semester+ " semestre " + year +" <br> Cursos: " + y);
-                    }
-                }
-                else {
-                    $("#tooltip").remove();
-                    previousPoint = null;
-                }
-            });
         });
+
+        //data for the classes graph
 
         function classesData() {
             var datasets = {
@@ -532,11 +492,59 @@ if($user_name) {
             return datasets;
         };
 
-        function plotClasses() {
+        function showTooltip(x, y, contents) {
+            $('<div id="tooltip">' + contents + '</div>').css( {
+                position: 'absolute',
+                display: 'none',
+                color: "#fff",
+                padding: '2px 5px',
+                'border-radius': '6px',
+                'background-color': '#000',
+                opacity: 0.65
+            }).appendTo("body").fadeIn(200).css({
+                top: y - $('#tooltip').height()-10,
+                left: x - $('#tooltip').width()/2
+            });
+        }
+
+        function tooltipChart(chartHolder, tooltipString) {
+            var previousPoint = null;
+            chartHolder.bind("plothover", function (event, pos, item) {
+                if (item) {
+                    if (previousPoint != item.dataIndex) {
+                        previousPoint = item.dataIndex;
+
+                        $("#tooltip").remove();
+                        var x = item.datapoint[0].toFixed(0),
+                            y = item.datapoint[1].toFixed(0);
+
+                        d = item.datapoint[0];
+                        date = new Date(d);
+                        year = 1900+parseInt(date.getYear())
+                        if(parseInt(date.getMonth()+1)==7)
+                            $semester = '2do';
+                        else
+                            $semester = '1er';
+
+                        showTooltip(item.pageX, item.pageY,
+                                    item.series.label + "<br> "  +$semester+ " semestre " + year +" <br> "+tooltipString+": " + y);
+                    }
+                }
+                else {
+                    $("#tooltip").remove();
+                    previousPoint = null;
+                }
+            });
+        }
+
+        function plotClasses(chartHolder, checkboxHolder, datasets, legendHolder, tooltipString) {
+            checkboxHolder.find("input").click(function(){
+                plotClasses(chartHolder, checkboxHolder, datasets, legendHolder, tooltipString );
+            });
+
             var data =[];
-            datasets = classesData();
-            if($('#statsChart-checkbox').find("input:checked").length > 0){
-                $('#statsChart-checkbox').find("input:checked").each(function () {
+            if(checkboxHolder.find("input:checked").length > 0){
+                checkboxHolder.find("input:checked").each(function () {
                     var key = $(this).attr("name");
                     if (key && datasets[key]) {
                         data.push(datasets[key]);
@@ -544,7 +552,7 @@ if($user_name) {
 
                 });
 
-                var plot = $.plot($("#statsChart"),data, {
+                var plot = $.plot(chartHolder,data, {
                         series: {
                             lines: { show: true,
                                     lineWidth: 1,
@@ -565,7 +573,7 @@ if($user_name) {
                         legend: {
                                 // show: false
                                 labelBoxBorderColor: "#fff",
-                                container: $('#statsChartLegend'),
+                                container: legendHolder,
                                 noColumns: 3,
                                 sorted: 'reverse'
                             },  
@@ -587,6 +595,7 @@ if($user_name) {
                         }
                     });
                 }
+            tooltipChart(chartHolder, tooltipString);
             }
 
             function facultyScroll() {

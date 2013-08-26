@@ -72,6 +72,29 @@ ORDER BY year, semester ASC
 
 $professors = mysql_query($professors) or die(mysql_error()); 
 
+
+while($row = mysql_fetch_array( $professors )) {
+
+    $count_professors = $row['count'];
+    $year_professors = $row['year'];
+    $semester_professors = $row['semester'];
+    $ticks_professors[] = '["'.$row['year'].'-'.$row['semester'].'" ,"'.$row['year'].'-'.$row['semester'].'"]';
+
+	if($row['semester']==21)
+	{
+		//echo $row['year'].'-01-01 UTC';
+		$tick = strval(strtotime( $year_professors.'-01-01') * 1000);
+	}
+	else {
+		//echo $row['year'].'-07-01 UTC:';
+		$tick = strval(strtotime( $year_professors.'-07-01') * 1000) ;
+	}
+	
+	
+}
+
+
+
 //professors each semester foreach faculty
 $professors_faculty = 'select count(distinct class_professor.professor_id), class_professor.year, class_professor.semester, faculty 
 from class_professor, classes 
@@ -82,6 +105,20 @@ ORDER BY year, semester ASC
 
 $professors_faculty = mysql_query($professors_faculty) or die(mysql_error()); 
 
+
+while($row = mysql_fetch_array( $professors_faculty )) {
+	if($row['semester']==21)
+	{
+		//echo $row['year'].'-01-01 UTC';
+		$tick_professors_faculty = strval(strtotime( $row['year'].'-01-01') * 1000);
+	}
+	else {
+		//echo $row['year'].'-07-01 UTC:';
+		$tick_professors_faculty = strval(strtotime( $row['year'].'-07-01') * 1000) ;
+	}
+	
+    $professors_faculty_count[$row['faculty']][$tick_professors_faculty]=$row['count'];
+}
 
 
 ?>
