@@ -148,7 +148,7 @@ if($user_name) {
 
             <div id="pad-wrapper">
 
-                <!-- statistics chart built with jQuery Flot -->
+                <!-- class chart built with jQuery Flot -->
                 <div class="row-fluid chart">
                     <h4>
                         <div class='span12'>Cursos Dicatos en la UC</div>
@@ -177,221 +177,38 @@ if($user_name) {
                         <div id="statsChartLegend" class="span12"></div>
                     </div>
                 </div>
+
+                <!-- class chart built with jQuery Flot -->
+                <div class="row-fluid section">
+                    <h4>
+                        <div class='span12'>Profesores de la UC</div>
+
+                    </h4>
+                    <div class="span2 h6">
+                        <div id="professorsChart-checkbox" class="faculty_professors_checkbox graph-checkbox">
+                            <input type="text" class="search faculty_professors span12" placeholder="facultad...">
+                            <div class="faculty_list">
+                                    <input type="checkbox"  name="professors_total" checked  id="professor_total">
+                                    <label for="professor_total">total</label> 
+                                <?
+                                    foreach ($class_count as $faculty => $data) { 
+                                        $faculty_name = str_replace($search, $replace, $faculty);
+                                ?>
+                                        <input type="checkbox"  name="professors_<? echo $faculty_name ?>"  id="professor_<? echo $faculty_name ?>">
+                                        <label for="professor_<? echo $faculty_name ?>"><? echo $faculty ?></label>                                
+                                <?
+                                    }
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span9">
+                        <div id="professorsChart" class="graph-holder"></div>
+                        <div id="professorsChartLegend" class="span12"></div>
+                    </div>
+                </div>
                 <!-- end statistics chart -->
 
-                <!-- UI Elements section -->
-                <div class="row-fluid section ui-elements">
-                    <h4>UI Elements</h4>
-                    <div class="span5 knobs">
-                        <div class="knob-wrapper">
-                            <input type="text" value="50" class="knob" data-thickness=".3" data-inputColor="#333" data-fgColor="#30a1ec" data-bgColor="#d4ecfd" data-width="150">
-                            <div class="info">
-                                <div class="param">
-                                    <span class="line blue"></span>
-                                    Active users
-                                </div>
-                            </div>
-                        </div>
-                        <div class="knob-wrapper">
-                            <input type="text" value="75" class="knob second" data-thickness=".3" data-inputColor="#333" data-fgColor="#3d88ba" data-bgColor="#d4ecfd" data-width="150">
-                            <div class="info">
-                                <div class="param">
-                                    <span class="line blue"></span>
-                                    % disk space usage
-                                </div>
-                            </div>
-                        </div>                        
-                    </div>
-                    <div class="span6 showcase">
-                        <div class="ui-sliders">
-                            <div class="slider slider-sample1 vertical-handler"></div>
-                            <div class="slider slider-sample2"></div>
-                            <div class="slider slider-sample3"></div>
-                        </div>
-                        <div class="ui-group">
-                            <a class="btn-flat inverse">Large Button</a>
-                            <a class="btn-flat gray">Large Button</a>
-                            <a class="btn-flat default">Large Button</a>
-                            <a class="btn-flat primary">Large Button</a>
-                        </div>                        
-
-                        <div class="ui-group">
-                            <a class="btn-flat icon">
-                                <i class="tool"></i> Icon button
-                            </a>
-                            <a class="btn-glow small inverse">
-                                <i class="shuffle"></i>
-                            </a>
-                            <a class="btn-glow small primary">
-                                <i class="setting"></i>
-                            </a>
-                            <a class="btn-glow small default">
-                                <i class="attach"></i>
-                            </a>
-                            <div class="ui-select">
-                                <select>
-                                    <option selected>Dropdown</option>
-                                    <option>Custom selects</option>
-                                    <option>Pure css styles</option>
-                                </select>
-                            </div>
-
-                            <div class="btn-group">
-                                <button class="glow left">LEFT</button>
-                                <button class="glow right">RIGHT</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- end UI elements section -->
-
-                <!-- table sample -->
-                <!-- the script for the toggle all checkboxes from header is located in js/theme.js -->
-                <div class="table-products section">
-                    <div class="row-fluid head">
-                        <div class="span12">
-                            <h4>Products <small>Table sample</small></h4>
-                        </div>
-                    </div>
-
-                    <div class="row-fluid filter-block">
-                        <div class="pull-right">
-                            <div class="ui-select">
-                                <select>
-                                  <option>Filter users</option>
-                                  <option>Signed last 30 days</option>
-                                  <option>Active users</option>
-                                </select>
-                            </div>
-                            <input type="text" class="search">
-                            <a class="btn-flat new-product">+ Add product</a>
-                        </div>
-                    </div>
-
-                    <div class="row-fluid">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th class="span3">
-                                        <input type="checkbox">
-                                        Product
-                                    </th>
-                                    <th class="span3">
-                                        <span class="line"></span>Description
-                                    </th>
-                                    <th class="span3">
-                                        <span class="line"></span>Status
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- row -->
-                                <tr class="first">
-                                    <td>
-                                        <input type="checkbox">
-                                        <div class="img">
-                                            <img src="img/table-img.png">
-                                        </div>
-                                        <a href="#">There are many variations </a>
-                                    </td>
-                                    <td class="description">
-                                        if you are going to use a passage of Lorem Ipsum.
-                                    </td>
-                                    <td>
-                                        <span class="label label-success">Active</span>
-                                        <ul class="actions">
-                                            <li><i class="table-edit"></i></span></li>
-                                            <li><i class="table-settings"></i></li>
-                                            <li class="last"><i class="table-delete"></i></li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <!-- row -->
-                                <tr>
-                                    <td>
-                                        <input type="checkbox">
-                                        <div class="img">
-                                            <img src="img/table-img.png">
-                                        </div>
-                                        <a href="#">Internet tend</a>
-                                    </td>
-                                    <td class="description">
-                                        There are many variations of passages.
-                                    </td>
-                                    <td>
-                                        <ul class="actions">
-                                            <li><i class="table-edit"></i></span></li>
-                                            <li><i class="table-settings"></i></li>
-                                            <li class="last"><i class="table-delete"></i></li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <!-- row -->
-                                <tr>
-                                    <td>
-                                        <input type="checkbox">
-                                        <div class="img">
-                                            <img src="img/table-img.png">
-                                        </div>
-                                        <a href="#">Many desktop publishing </a>
-                                    </td>
-                                    <td class="description">
-                                        if you are going to use a passage of Lorem Ipsum.
-                                    </td>
-                                    <td>
-                                        <ul class="actions">
-                                            <li><i class="table-edit"></i></span></li>
-                                            <li><i class="table-settings"></i></li>
-                                            <li class="last"><i class="table-delete"></i></li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <!-- row -->
-                                <tr>
-                                    <td>
-                                        <input type="checkbox">
-                                        <div class="img">
-                                            <img src="img/table-img.png">
-                                        </div>
-                                        <a href="#">Generate Lorem </a>
-                                    </td>
-                                    <td class="description">
-                                        There are many variations of passages.
-                                    </td>
-                                    <td>
-                                        <span class="label label-info">Standby</span>
-                                        <ul class="actions">
-                                            <li><i class="table-edit"></i></span></li>
-                                            <li><i class="table-settings"></i></li>
-                                            <li class="last"><i class="table-delete"></i></li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <!-- row -->
-                                <tr>
-                                    <td>
-                                        <input type="checkbox">
-                                        <div class="img">
-                                            <img src="img/table-img.png">
-                                        </div>
-                                        <a href="#">Internet tend</a>
-                                    </td>
-                                    <td class="description">
-                                        There are many variations of passages.
-                                    </td>
-                                    <td>                                        
-                                        <ul class="actions">
-                                            <li><i class="table-edit"></i></span></li>
-                                            <li><i class="table-settings"></i></li>
-                                            <li class="last"><i class="table-delete"></i></li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <!-- end table sample -->
             </div>
         </div>
     </div>
@@ -410,46 +227,41 @@ if($user_name) {
     <script src="js/jquery.flot.resize.js"></script>
     <script src="js/jquery.flot.time.js"></script>
     <script src="js/theme.js"></script>
+    <script src="js/graphs.js"></script>
 
     <script type="text/javascript">
         $(function () {
-
-            // jQuery Knobs
-            $(".knob").knob();
-
-
-
-            // jQuery UI Sliders
-            $(".slider-sample1").slider({
-                value: 100,
-                min: 1,
-                max: 500
-            });
-            $(".slider-sample2").slider({
-                range: "min",
-                value: 130,
-                min: 1,
-                max: 500
-            });
-            $(".slider-sample3").slider({
-                range: true,
-                min: 0,
-                max: 500,
-                values: [ 40, 170 ],
-            });
-
-            // jQuery Flot Chart
-           
+      
             //Classes chart
             classGraphHolder = $('#statsChart');
             classCheckboxHolder = $('#statsChart-checkbox');
             classDataset = classesData();
             classLegendHolder = $('#statsChartLegend');
             classTooltipString = 'Cursos';
+            searchFacultyClasses = $('.search.faculty_classes');
+            checkboxFacultyClasses = $('.faculty_classes_checkbox')
+
             plotClasses(classGraphHolder, classCheckboxHolder, classDataset, classLegendHolder, classTooltipString );
             facultyScroll();
-            searchFacultyClasses();
+            searchFaculty(searchFacultyClasses, checkboxFacultyClasses);
+            classCheckboxHolder.find("input").click(function(){
+                plotClasses(classGraphHolder, classCheckboxHolder, classDataset, classLegendHolder, classTooltipString );
+            });
 
+            //Professors chart
+            professorsGraphHolder = $('#professorsChart');
+            professorsCheckboxHolder = $('#professorsChart-checkbox');
+            professorsDataset = professorsData();
+            professorsLegendHolder = $('#professorsChartLegend');
+            professorsTooltipString = 'Profesores';
+            searchFacultyProfessors = $('.search.faculty_professors');
+            checkboxFacultyProfessors = $('.faculty_professors_checkbox')
+
+            plotClasses(professorsGraphHolder, professorsCheckboxHolder, professorsDataset, professorsLegendHolder, professorsTooltipString );
+            searchFaculty(searchFacultyProfessors, checkboxFacultyProfessors);
+            professorsCheckboxHolder.find("input").click(function(){
+                plotClasses(professorsGraphHolder, professorsCheckboxHolder, professorsDataset, professorsLegendHolder, professorsTooltipString );
+            });
         });
 
         //data for the classes graph
@@ -492,142 +304,45 @@ if($user_name) {
             return datasets;
         };
 
-        function showTooltip(x, y, contents) {
-            $('<div id="tooltip">' + contents + '</div>').css( {
-                position: 'absolute',
-                display: 'none',
-                color: "#fff",
-                padding: '2px 5px',
-                'border-radius': '6px',
-                'background-color': '#000',
-                opacity: 0.65
-            }).appendTo("body").fadeIn(200).css({
-                top: y - $('#tooltip').height()-10,
-                left: x - $('#tooltip').width()/2
-            });
-        }
-
-        function tooltipChart(chartHolder, tooltipString) {
-            var previousPoint = null;
-            chartHolder.bind("plothover", function (event, pos, item) {
-                if (item) {
-                    if (previousPoint != item.dataIndex) {
-                        previousPoint = item.dataIndex;
-
-                        $("#tooltip").remove();
-                        var x = item.datapoint[0].toFixed(0),
-                            y = item.datapoint[1].toFixed(0);
-
-                        d = item.datapoint[0];
-                        date = new Date(d);
-                        year = 1900+parseInt(date.getYear())
-                        if(parseInt(date.getMonth()+1)==7)
-                            $semester = '2do';
-                        else
-                            $semester = '1er';
-
-                        showTooltip(item.pageX, item.pageY,
-                                    item.series.label + "<br> "  +$semester+ " semestre " + year +" <br> "+tooltipString+": " + y);
+        function professorsData() {
+            var datasets = {
+                "professors_total": {
+                    label: "Total",
+                    data: [<? echo implode (',', $series_professors) ?>],
+                    color: '#32a0ee'
+                }, 
+            <?
+                foreach ($professors_faculty_count as $faculty => $data) {
+                    $n=1;
+                    foreach ($data as $tick => $count) {
+                        $series_faculty_professors[$faculty][]='['.$tick.' ,'.$count.']';
+                        $n++;
                     }
+            ?>
+
+                "<? echo 'professors_'.str_replace($search, $replace, $faculty); ?>": {
+                    label: "<? echo $faculty; ?>",
+                    data: [<? echo implode (',' , $series_faculty_professors[$faculty]); ?>] 
+                }, 
+            <?
                 }
-                else {
-                    $("#tooltip").remove();
-                    previousPoint = null;
-                }
+            ?>
+            }
+
+            // hard-code color indices to prevent them from shifting as
+            // countries are turned on/off
+
+            var i = 1;
+
+            $.each(datasets, function(key, val) {
+                val.color = i;
+                ++i;
             });
-        }
 
-        function plotClasses(chartHolder, checkboxHolder, datasets, legendHolder, tooltipString) {
-            checkboxHolder.find("input").click(function(){
-                plotClasses(chartHolder, checkboxHolder, datasets, legendHolder, tooltipString );
-            });
+            return datasets;
+        };
 
-            var data =[];
-            if(checkboxHolder.find("input:checked").length > 0){
-                checkboxHolder.find("input:checked").each(function () {
-                    var key = $(this).attr("name");
-                    if (key && datasets[key]) {
-                        data.push(datasets[key]);
-                    }
-
-                });
-
-                var plot = $.plot(chartHolder,data, {
-                        series: {
-                            lines: { show: true,
-                                    lineWidth: 1,
-                                    fill: true, 
-                                    fillColor: { colors: [ { opacity: 0.1 }, { opacity: 0.13 } ] }
-                                 },
-                            points: { show: true, 
-                                     lineWidth: 2,
-                                     radius: 3
-                                 },
-                            shadowSize: 0,
-                        },
-                        grid: { hoverable: true, 
-                               clickable: true, 
-                               tickColor: "#f9f9f9",
-                               borderWidth: 0
-                            },
-                        legend: {
-                                // show: false
-                                labelBoxBorderColor: "#fff",
-                                container: legendHolder,
-                                noColumns: 3,
-                                sorted: 'reverse'
-                            },  
-                        colors: ["#a7b5c5", "#30a0eb"],
-                        xaxis: {
-                            mode: "time",
-                            minTickSize: [0.5, "year"],
-                            font: {
-                                size: 10,
-                                family: "Open Sans, Arial",
-                                variant: "small-caps",
-                                color: "#697695"
-                            }
-                        },
-                        yaxis: {
-                            ticks:10, 
-                            tickDecimals: 0,
-                            font: {size:12, color: "#9da3a9"}
-                        }
-                    });
-                }
-            tooltipChart(chartHolder, tooltipString);
-            }
-
-            function facultyScroll() {
-
-                $('.faculty_list').slimScroll({
-                    height: '200px',
-                    size: '5px',
-                    position: 'right',
-                    alwaysVisible: false,
-                    railVisible: false,
-                    railOpacity: 0.3,
-                    wheelStep: 10,
-                    allowPageScroll: false,
-                    disableFadeOut: false
-
-                });
-            }
-
-            function searchFacultyClasses() {
-                $('.search.faculty_classes').keyup(function(){
-                    q = $(this).val().toLowerCase();
-                    $('.faculty_classes_checkbox').find('label').each(function(){
-                        val=$(this).text().toLowerCase()
-                        if(val.search(q)!=-1){
-                            $(this).show();
-                        }
-                        else {
-                            $(this).hide();
-                        }
-                    })
-                })
-            }
+        
     </script>
 </body>
 </html>

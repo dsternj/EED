@@ -599,7 +599,7 @@ input.search.secondary {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	width: 135px;
+	width: 100%;
 	text-transform: lowercase;
 	margin:0;
 }
@@ -612,4 +612,53 @@ input.search.secondary {
 }
 #statsChart-checkbox input[type="checkbox"]+label:nth-child(2){
 	border:0px;
+}
+
+#statsChart-checkbox {
+	overflow: hidden;
+	margin-top: 40px;
+}
+
+.graph-checkbox .search {
+	margin-bottom:8px;
+}
+
+.graph-checkbox input[type="checkbox"]{
+	display:none;
+}
+
+.graph-checkbox input[type="checkbox"]{
+	display:none;
+}
+.graph-checkbox input[type="checkbox"]+label {
+	border-top: 1px solid lightgray;
+	padding: 0px 5px 2px 5px;
+	font-size: 9px;
+	display: inline-block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 100%;
+	text-transform: lowercase;
+	margin:0;
+}
+.graph-checkbox input[type="checkbox"]:checked+label {
+	background: rgba(59, 159, 243, 0.33);
+}
+.graph-checkbox input[type="checkbox"]+label:hover {
+	background: rgba(59, 159, 243, 0.2);
+
+}
+.graph-checkbox input[type="checkbox"]+label:nth-child(2){
+	border:0px;
+}
+
+.graph-checkbox {
+	overflow: hidden;
+	margin-top: 40px;
+}
+
+.graph-holder {
+	height: 250px;
+	margin-top: 35px;
 }

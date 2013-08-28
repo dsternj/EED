@@ -64,7 +64,7 @@ while($row = mysql_fetch_array( $classes_faculty )) {
 }
 
 //professors each semester
-$professors = 'select count(distinct class_professor.professor_id), class_professor.year, class_professor.semester 
+$professors = 'select count(distinct class_professor.professor_id) as count, class_professor.year, class_professor.semester 
 from class_professor
 group by year, semester
 ORDER BY year, semester ASC
@@ -90,13 +90,11 @@ while($row = mysql_fetch_array( $professors )) {
 		$tick = strval(strtotime( $year_professors.'-07-01') * 1000) ;
 	}
 	
-	
+	$series_professors[]='['.$tick.' ,'.$row['count'].']';
 }
 
-
-
 //professors each semester foreach faculty
-$professors_faculty = 'select count(distinct class_professor.professor_id), class_professor.year, class_professor.semester, faculty 
+$professors_faculty = 'select count(distinct class_professor.professor_id) as count, class_professor.year, class_professor.semester, faculty 
 from class_professor, classes 
 WHERE class_professor.class_un = classes.un 
 group by year, semester, faculty
