@@ -118,5 +118,12 @@ while($row = mysql_fetch_array( $professors_faculty )) {
     $professors_faculty_count[$row['faculty']][$tick_professors_faculty]=$row['count'];
 }
 
+$count_classes = 'select count(class_un) as classes from classes_students WHERE username = "'.$user_name.'"';
+$count_classes = mysql_query($count_classes) or die(mysql_error()); 
+
+
+while($row = mysql_fetch_array( $count_classes )) {
+	$count_classes = $row['classes'];
+}
 
 ?>

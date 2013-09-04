@@ -1,12 +1,13 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
 <?
 
-$username = $_POST['user'];
-$password = $_POST['password'];
+$username = $_REQUEST['user'];
+$password = $_REQUEST['password'];
 $useragent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.43 Safari/537.31"; // Yes cause that's the way I roll
 $cookie="cookie.txt";
 $url = 'https://sso.uc.cl/cas/login?service=https://portaluc.puc.cl/uPortal/Login';
 $portal_url = 'https://portaluc.puc.cl/uPortal/render.userLayoutRootNode.uP';
-$portal_base_url = 'https://portaluc.puc.cl/uPortal/';
+$portal_base_url = 'https://portal.uc.cl';
 
     $ch  = curl_init();
 
@@ -24,7 +25,7 @@ $portal_base_url = 'https://portaluc.puc.cl/uPortal/';
     if (!preg_match('/^.*?<form.*?<\/form>.*$/smi', $page, $form)) {
        // echo  'error finding form';
     }
-	//print_r($form);
+    //print_r($form);
 
     $form = $form[0];
 
@@ -32,15 +33,15 @@ $portal_base_url = 'https://portaluc.puc.cl/uPortal/';
     if (!preg_match('/action="([^"]+)"/i', $form, $action)) {
        // echo  'Failed to find login form url';
     }
-	//print_r($action);
+    //print_r($action);
 
     $URL2 = $action[1]; // this is our new post url
-	//print_r($URL2);
+    //print_r($URL2);
     // find all hidden fields which we need to send with our login, this includes security tokens
     $count = preg_match_all('/<input type="hidden"\s*name="([^"]*)"\s*value="([^"]*)"/i', $form, $hiddenFields);
 
-	//print_r($hiddenFields.'lala');
-	
+    //print_r($hiddenFields.'lala');
+    
     $postFields = array();
 
     // turn the hidden fields into an array
@@ -61,8 +62,10 @@ $portal_base_url = 'https://portaluc.puc.cl/uPortal/';
 
     $post = substr($post, 0, -1);
 
-	//echo $post;
+    //echo $post;
     // set additional curl options using our previous options
+
+    //echo $url.$URL2;
     curl_setopt($ch, CURLOPT_URL, $url.$URL2);
     curl_setopt($ch, CURLOPT_REFERER, $url);
     curl_setopt($ch, CURLOPT_POST, 1);
@@ -71,13 +74,21 @@ $portal_base_url = 'https://portaluc.puc.cl/uPortal/';
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 
+    curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, false); 
+/*    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);*/
+
+
+
+
     $page = curl_exec($ch);
+    //echo(curl_errno($ch));
+
 
     //echo $page;
 
     $dom = new DOMDocument();
     $dom->loadHTML($page);
-    $welcome = $dom->getElementById('welcome-auth')->textContent;
+    $welcome = $dom->getElementById('sub_menu')->textContent;
 
     //return false if login failed
     if(!$welcome) {
@@ -89,21 +100,24 @@ $portal_base_url = 'https://portaluc.puc.cl/uPortal/';
     include_once('create_cookie.php');
 
     //get the link to the academic area
-    $dom = new DOMDocument();
+/*    $dom = new DOMDocument();
     $dom->loadHTML($page);
-    $holder = $dom->getElementById('tab_u102l1s83');
-    $link = $holder->getElementsByTagName('a')->item(0)->getAttribute('href');
+    $holder = $dom->getElementById('menu_container1');
+    $link = $holder->getElementsByTagName('a')->item(2)->getAttribute('href');*/
 
     //enter the academic area
-    curl_setopt($ch, CURLOPT_URL, $portal_base_url.$link);
+    //echo $portal_base_url.$link;
+    curl_setopt($ch, CURLOPT_URL, 'https://portal.uc.cl/c/portal/render_portlet?p_l_id=10706&p_p_id=ResumenAcademico_WAR_LPT014_ResumenAcademico_INSTANCE_q3mL&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_pos=3&p_p_col_count=4&currentURL=%2Fweb%2Fhome-community%2Finformacion-academica%3Fgpi%3D10225');
     curl_setopt($ch, CURLOPT_REFERER, $url);
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-    curl_setopt($ch, CURLOPT_HEADER, true);
+    curl_setopt($ch, CURLOPT_HEADER, false);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 
     $page = curl_exec($ch);
+
+    //echo $page;
     $cursos = array();
     $n=0;
     $c=0;
@@ -122,7 +136,7 @@ $portal_base_url = 'https://portaluc.puc.cl/uPortal/';
                 $semesters = $aux->getElementsByTagName('table');
             }
 
-            echo count($semesters);
+            //echo count($semesters);
             foreach ($semesters as $semester) {
                 if($s%2==0) {
 
@@ -136,10 +150,13 @@ $portal_base_url = 'https://portaluc.puc.cl/uPortal/';
                             $cursos[$c][$class_val[$n]] = $td->textContent;
                             $n++;
                             if($n==9) {
+                                $class[]="('".$_REQUEST['user']."', '".$cursos[$c]['class_id']."', '".$cursos[$c]['section']."', '".$cursos[$c]['year']."', '".$cursos[$c]['semester']."', '".$cursos[$c]['gpa']."')";
                                 $c++;
                                 $n=0;
                             }
                         }
+
+                        
                     }
                 }
                 $s++;
@@ -148,7 +165,13 @@ $portal_base_url = 'https://portaluc.puc.cl/uPortal/';
     }
    
     
-    print_r ($cursos);
+    //print_r ($cursos);
+
+    //insert classes
+    //insert professors
+    require('database_connect.php');
+    mysql_query("INSERT INTO classes_students  VALUES ".implode(' , ',$class).' ON DUPLICATE KEY UPDATE grade = VALUES(grade)')
+    or die(mysql_error());
 
     //echo $page;
 

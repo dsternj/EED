@@ -1,6 +1,7 @@
-<? include_once 'backend/panel.php' ;
+<?
 include_once('read_cookie.php') ;
 if($user_name) { 
+    include_once 'backend/panel.php' ;
 ?>
 
 <!DOCTYPE html>
@@ -48,7 +49,11 @@ if($user_name) {
                 <span class="icon-bar"></span>
             </button>
             
-            <a class="brand" href="index.html">Encuesta Docente Pública</a>
+            <a class="brand" href="index.php">
+                <a href="index.php">
+                    <img class="" src="img/edpl.png">
+                </a>
+            </a>
 
             <ul class="nav pull-right">                
                 <li class="">
@@ -116,7 +121,7 @@ if($user_name) {
                 <div class="row-fluid stats-row">
                     <div class="span3 stat">
                         <div class="data">
-                            <span class="number">40</span>
+                            <span class="number"><? echo $count_classes ?></span>
                             ramos
                         </div>
                         <span class="date">Cursados</span>

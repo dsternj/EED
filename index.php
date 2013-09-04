@@ -43,6 +43,11 @@ if(!$user_name) {
 
 
     <div class="container">
+        <div class="logo">
+            <a href="index.php">
+                <img class="" src="img/edpl.png">
+            </a>
+        </div>
 
       <form class="form-signin" action="validation.php" mehod="post">
         <h2 class="form-signin-heading">Iniciar Sesión</h2>
