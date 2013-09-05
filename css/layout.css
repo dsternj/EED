@@ -45,7 +45,7 @@ input.search{
 
 /* search input */
 .navbar-inverse input.search {
-	background: url("../img/lens.png") #0f1217 no-repeat 95%;
+	background: url("../img/lens.png") whitesmoke no-repeat 95%;
 	border: 1px solid #0f1217;
 	position: relative;
 	border-radius: 4px;
@@ -401,6 +401,10 @@ input.search{
 	padding: 0px 25px;
 	margin-top: 55px;
 }
+#pad-wrapper.normal_pad {
+	margin-top:0px;
+}
+
 #pad-wrapper h4 {
 	margin: 0 0 0 20px;
 	color: #696d73;

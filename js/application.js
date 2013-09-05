@@ -1,6 +1,7 @@
 $(document).ready(function(){
 	submitLogin();
 	blockOnSubmit();
+	searchClassList();
 })
 
 var submitLogin = function () {
@@ -47,4 +48,39 @@ var blockOnSubmit = function () {
 	$( document ).ajaxComplete(function() {
 		$('form').children('input').removeAttr('disabled')
    	});
+}
+
+var searchClassList = function()  {
+    $('.search.class_list').keyup(function(){
+    	$('.professor-table tr').show();
+        q = $(this).val().toLowerCase();
+        $('.professor-table').find('tr').not('thead tr').each(function(){
+            val=$(this).text().toLowerCase()
+            if(val.search(q)!=-1){
+                $(this).show();
+            }
+            else {
+                $(this).hide();
+            }
+        })
+
+        $('.class_time').each(function(){
+    		q = $(this).val().toLowerCase();
+    		$('.professor-table').find('tr').not('thead tr').each(function(){
+    			if($(this).is(":visible")){
+		            val=$(this).find(">:first-child").text().toLowerCase()
+		            if(val.search(q)!=-1 || q == 'todos'){
+		                $(this).show();
+		            }
+		            else {
+		                $(this).hide();
+		            }
+		        }
+    		})
+    	})
+    })
+
+    $('.class_time').change(function(){
+    	$('.search.class_list').keyup();
+    })
 }

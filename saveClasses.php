@@ -38,9 +38,11 @@ $result = mysql_query($query) or die(mysql_error());
 while($row = mysql_fetch_array( $result )) {
 	$name = $row['name'];
 	$faculty = $row['faculty'];
-	foreach ($professor_class[$name.'-'.$faculty] as $list) {
-		$professor_class[$name.'-'.$faculty] = '("'.$row['id'].'" , '.$list;
-	}
+    $n=0;
+    foreach ($professor_class[$name.'-'.$faculty] as $list) {
+        $professor_list[$name.'-'.$faculty.'-'.$n] = '("'.$row['id'].'" , '.$list;
+        $n++;
+    }
 } 
 
 
@@ -48,7 +50,7 @@ while($row = mysql_fetch_array( $result )) {
 
 
 //insert class_professor
-mysql_query("INSERT IGNORE INTO class_professor (professor_id, class_un, section, year, semester) VALUES ".implode(' , ',$professor_class)) 
+mysql_query("INSERT IGNORE INTO class_professor (professor_id, class_un, section, year, semester) VALUES ".implode(' , ',$professor_list)) 
 or die(mysql_error()); 
 
 ?>

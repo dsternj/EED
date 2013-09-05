@@ -2,7 +2,7 @@
 include_once('read_cookie.php') ;
 if($user_name) { 
     include_once 'backend/application.php' ;
-    include_once 'backend/panel.php' ;
+    include_once 'backend/professor_list.php' ;
 
 ?>
 

@@ -1,4 +1,3 @@
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
 <?
 
 $username = $_REQUEST['user'];
@@ -122,7 +121,7 @@ $portal_base_url = 'https://portal.uc.cl';
     $n=0;
     $c=0;
     $s=0;
-    $class_val = array('class_id', 'section', 'credits', 'class_name', 'gpa', 'class_type', 'semester', 'year', 'validated');
+    $class_val = array('class_id', 'section', 'credits', 'class_name', 'gpa', 'class_type', 'semester', 'year', 'convalidated');
     //get the classes and grades
     $dom = new DOMDocument();
     $dom->loadHTML($page);
@@ -149,8 +148,9 @@ $portal_base_url = 'https://portal.uc.cl';
                         foreach ($tds as $td) {
                             $cursos[$c][$class_val[$n]] = $td->textContent;
                             $n++;
-                            if($n==9) {
-                                $class[]="('".$_REQUEST['user']."', '".$cursos[$c]['class_id']."', '".$cursos[$c]['section']."', '".$cursos[$c]['year']."', '".$cursos[$c]['semester']."', '".$cursos[$c]['gpa']."')";
+                            if($n==9 ) {
+                                if ($cursos[$c]['convalidated'] != 'V')
+                                    $class[]="('".$_REQUEST['user']."', '".$cursos[$c]['class_id']."', '".$cursos[$c]['section']."', '".$cursos[$c]['year']."', '".$cursos[$c]['semester']."', '".$cursos[$c]['gpa']."')";
                                 $c++;
                                 $n=0;
                             }
@@ -167,8 +167,6 @@ $portal_base_url = 'https://portal.uc.cl';
     
     //print_r ($cursos);
 
-    //insert classes
-    //insert professors
     require('database_connect.php');
     mysql_query("INSERT INTO classes_students  VALUES ".implode(' , ',$class).' ON DUPLICATE KEY UPDATE grade = VALUES(grade)')
     or die(mysql_error());
