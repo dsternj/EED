@@ -430,4 +430,8 @@ fieldset[disabled] .btn-default.active {
   border-color: #cccccc !important;
 }
 
+.row-fluid.shorter {
+	width:80%;
+}
+
 

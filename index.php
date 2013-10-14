@@ -57,11 +57,14 @@ if(!$user_name) {
           <span class="add-on">@uc.cl</span>
         </div>
         <input type="password" class="input-block-level" name='password' placeholder="clave uc">
-        <button class="btn-glow primary login" type="submit">Sign in</button>
-        <div class="loading-signin" style="display:inline-block; margin-left:10px; display:none;">
+        <button class="btn-glow primary login" type="submit">Iniciar Sesión</button>
+        <div class="loading-signin" style="display:inline-block; margin-left:10px; visibility: hidden;">
           <img src='/img/AjaxLoader.gif'>
-          conectando con la UC
+          <span style="font-size:10px;">conectando a la UC</span>
         </div>
+        <br>
+        <br>
+        <span style="font-size:11px;">al iniciar sesión usted acepta los <a href="tyc.php">Términos y Condiciones</a> </span>
       </form>
 
     </div> <!-- /container -->

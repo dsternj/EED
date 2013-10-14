@@ -21,8 +21,8 @@ function showTooltip(x, y, contents) {
                 previousPoint = item.dataIndex;
 
                 $("#tooltip").remove();
-                var x = item.datapoint[0].toFixed(0),
-                    y = item.datapoint[1].toFixed(0);
+                var x = item.datapoint[0].toFixed(1),
+                    y = item.datapoint[1].toFixed(1);
 
                 d = item.datapoint[0];
                 date = new Date(d);
@@ -43,13 +43,29 @@ function showTooltip(x, y, contents) {
     });
 }
 
+function updateBarChart(checkboxHolder, graphBar, barDatasets) {
+    var data = [];
+    if(checkboxHolder.find("input:checked").length > 0){
+        checkboxHolder.find("input:checked").each(function () {
+            checked = $(this).is(':checked');
+            var key = $(this).attr("name");
+            if (key && barDatasets[key] && checked) {
+                data.push(barDatasets[key]['data'][0]);
+            }
+
+        });
+    }
+    graphBar.setData(data);
+}
+
 function plotClasses(chartHolder, checkboxHolder, datasets, legendHolder, tooltipString) {
 
     var data =[];
     if(checkboxHolder.find("input:checked").length > 0){
         checkboxHolder.find("input:checked").each(function () {
+            checked = $(this).is(':checked');
             var key = $(this).attr("name");
-            if (key && datasets[key]) {
+            if (key && datasets[key] && checked) {
                 data.push(datasets[key]);
             }
 

@@ -23,6 +23,12 @@ if($user_name) {
     <div class="content">
         <div class="container-fluid">
             <? include_once 'helpers/upper_stats.php' ; ?>
+            <br>
+            <div class="alert alert-info">
+                            <i class="icon-exclamation-sign"></i>
+                            Pronto se agregarán los cursos del segundo semestre del 2013
+            </div>
+
             <div id="pad-wrapper" class="normal_pad">
                 <div class="table-products section">
                     <div class="row-fluid head">
@@ -87,12 +93,26 @@ if($user_name) {
                                         <? echo $class_un[$key].' - '.$value ?>
                                     </td>
                                     <td>
-                                        <span class="label label-info">pendiente</span>
-                                        <ul class="actions">
-                                            <a class="btn-flat icon">
-                                                <i class="table-edit"></i> evaluar
-                                            </a>
-                                        </ul>
+                                        <form action='evaluate.php' name='evaluate_form' method="post">
+                                            <?
+                                            if (!in_array($class_un[$key], $answer_list)) { ?>
+                                            <span class="label label-info">pendiente</span>
+                                            <ul class="actions">                                            
+                                                <input type="hidden" value='<? echo $professor_id[$key] ?>' name='pid'>
+                                                <input type="hidden" value='<? echo $professor_name[$key] ?>' name='pn'>
+                                                <input type="hidden" value='<? echo $class_un[$key] ?>' name='cun'>
+                                                <input type="hidden" value='<? echo $value ?>' name='cn'>
+                                                <input type="hidden" value='<? echo $c_n_semester[$key] ?>' name='semester'>
+                                                <input type="hidden" value='<? echo $c_year[$key] ?>' name='year'>
+                                                <a class="btn-flat icon evaluate" >
+                                                    <i class="table-edit"></i> evaluar
+                                                </a>                                            
+                                            </ul>
+                                            <? } else { ?>
+                                                <span class="label label-success">evaluado</span>
+                                               
+                                            <? } ?>
+                                        </form>
                                     </td>
                                 </tr>
                                 <? } ?>

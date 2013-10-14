@@ -1,7 +1,7 @@
     <!-- scripts -->
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="js/jquery.1.10.2.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery-ui-1.10.2.custom.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
     <script src="js/jquery.slimscroll.min.js"></script>
     <script src="js/application.js"></script>
     <!-- knob -->
@@ -13,3 +13,8 @@
     <script src="js/jquery.flot.time.js"></script>
     <script src="js/theme.js"></script>
     <script src="js/graphs.js"></script>
+
+    <!-- morris -->
+    <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.3.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="http://cdn.oesmith.co.uk/morris-0.4.3.min.js"></script>

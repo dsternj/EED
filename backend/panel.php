@@ -20,10 +20,12 @@ while($row = mysql_fetch_array( $professors )) {
 	$professor_id[]= $row['professor_id'];
 	$c_year[]= $row['year'];
 	$c_year_list = array_unique($c_year);
+	$c_n_semester[] = $row['semester'];
 	if($row['semester']==21) 
 		$c_semester[]= 'primero';
 	else
 		$c_semester[]= 'segundo';
 }
+
 
 ?>

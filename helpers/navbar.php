@@ -15,7 +15,7 @@
 
             <ul class="nav pull-right">                
                 <li class="">
-                    <input class="search span5" type="text" placeholder="busca resultados por profesor, curso o sigla" />
+                    <input class="search span5 autocomplete" id="search" type="text" placeholder="busca resultados por profesor (apellido), curso o sigla" />
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle hidden-phone" data-toggle="dropdown">

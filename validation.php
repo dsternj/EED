@@ -3,7 +3,7 @@
 $username = $_REQUEST['user'];
 $password = $_REQUEST['password'];
 $useragent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.43 Safari/537.31"; // Yes cause that's the way I roll
-$cookie="cookie.txt";
+$cookie="cookies/cookie.txt";
 $url = 'https://sso.uc.cl/cas/login?service=https://portaluc.puc.cl/uPortal/Login';
 $portal_url = 'https://portaluc.puc.cl/uPortal/render.userLayoutRootNode.uP';
 $portal_base_url = 'https://portal.uc.cl';
@@ -11,8 +11,8 @@ $portal_base_url = 'https://portal.uc.cl';
     $ch  = curl_init();
 
     curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
     curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+    curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
     curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.13) Gecko/20101206 Ubuntu/10.10 (maverick) Firefox/3.6.13');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_HEADER, 0);
