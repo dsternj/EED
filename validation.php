@@ -1,9 +1,9 @@
-<?
+<?php
 
 $username = $_REQUEST['user'];
 $password = $_REQUEST['password'];
 $useragent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.43 Safari/537.31"; // Yes cause that's the way I roll
-$cookie="cookies/cookie.txt";
+$cookie="cookies/cookie-".$username.".txt";
 $url = 'https://sso.uc.cl/cas/login?service=https://portaluc.puc.cl/uPortal/Login';
 $portal_url = 'https://portaluc.puc.cl/uPortal/render.userLayoutRootNode.uP';
 $portal_base_url = 'https://portal.uc.cl';
@@ -149,8 +149,11 @@ $portal_base_url = 'https://portal.uc.cl';
                             $cursos[$c][$class_val[$n]] = $td->textContent;
                             $n++;
                             if($n==9 ) {
-                                if ($cursos[$c]['convalidated'] != 'V')
+                                if ($cursos[$c]['convalidated'] != 'V') {
+                                    if($cursos[$c]['semester']==1) $cursos[$c]['semester']=21;
+                                    if($cursos[$c]['semester']==2) $cursos[$c]['semester']=22;
                                     $class[]="('".$_REQUEST['user']."', '".$cursos[$c]['class_id']."', '".$cursos[$c]['section']."', '".$cursos[$c]['year']."', '".$cursos[$c]['semester']."', '".$cursos[$c]['gpa']."')";
+                                    }
                                 $c++;
                                 $n=0;
                             }
@@ -172,5 +175,6 @@ $portal_base_url = 'https://portal.uc.cl';
     or die(mysql_error());
 
     //echo $page;
+    echo 'TRUE';
 
 ?>
